@@ -105,3 +105,24 @@ ENV/
 
 # sqlite
 *.sqlite3
+
+*.pyc
+*.xml
+*.iml
+/.idea
+error.log
+/local_settings.py
+dump.rdb
+eggs.csv
+errors_log.out
+logfile
+.DS*
+templates/
+.idea/workspace.xml
+*.db
+*~
+.*
+
+# Accept these files in the repository
+!.gitignore
+!.travis.yml
