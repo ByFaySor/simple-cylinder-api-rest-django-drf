@@ -7,6 +7,7 @@ from inventory.common.models import (
     DtsCylinderPerson,
 )
 
+
 class DynamicFieldSerializer(serializers.ModelSerializer):
     """
     A ModelSerializer that takes an additional `fields` argument that
@@ -29,50 +30,53 @@ class DynamicFieldSerializer(serializers.ModelSerializer):
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
 
+
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ('id', 'username',)
 
-class TpsCylinderSerializer(serializers.ModelSerializer):
 
-    name = serializers.CharField(min_length=10)
-    dts_user = serializers.ReadOnlyField(source='owner.username')
+class TpsCylinderSerializer(DynamicFieldSerializer):
+
+    name = serializers.CharField(min_length=7)
 
     class Meta:
         model = TpsCylinder
-        fields = ('id', 'name')
-        read_only_fields = ('id', 'created_at', 'updated_at', 'dts_user')
+        fields = ('id', 'name',)
+        """
+        Innecesario
+        read_only_fields = ('id', 'created_at', 'updated_at', 'dts_user',)
+        """
+
 
 class DtsCylinderSerializer(DynamicFieldSerializer):
 
-    size = serializers.CharField(min_length=10)
+    size = serializers.CharField(min_length=7)
     weight = serializers.IntegerField(min_value=10)
     price = serializers.FloatField(min_value=1)
-    dts_user = serializers.ReadOnlyField(source='owner.username')
     tps_cylinder = TpsCylinderSerializer()
-    dts_user = UserSerializer()
 
     class Meta:
         model = DtsCylinder
         fields = '__all__'
+
 
 class DtsPersonSerializer(serializers.ModelSerializer):
 
     dni = serializers.IntegerField(min_value=5, max_value=100000000) # Expresión regular
     first_name = serializers.CharField(min_length=3)
     surname = serializers.CharField(min_length=3)
-    dts_user = serializers.ReadOnlyField(source='owner.username')
     dts_user = UserSerializer()
 
     class Meta:
         model = DtsPerson
         fields = '__all__'
 
+
 class DtsCylinderPersonSerializer(serializers.ModelSerializer):
 
-    dts_user = serializers.ReadOnlyField(source='owner.username')
     dts_user = UserSerializer()
 
     class Meta:

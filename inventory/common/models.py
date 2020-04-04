@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class TpsCylinder(models.Model):
     name = models.CharField(max_length=20, unique=True, error_messages={
         'unique': 'Existe un tipo de cilindro con el mismo nombre',
@@ -13,6 +14,7 @@ class TpsCylinder(models.Model):
     class Meta:
         db_table = 'tps_cylinder'
         ordering = ('name',)
+
 
 class DtsCylinder(models.Model):
     size = models.CharField(max_length=20, unique=True, error_messages={
@@ -28,6 +30,7 @@ class DtsCylinder(models.Model):
     class Meta:
         db_table = 'dts_cylinder'
         ordering = ('weight',)
+
 
 class DtsPerson(models.Model):
     class Sex(models.IntegerChoices):
@@ -49,6 +52,7 @@ class DtsPerson(models.Model):
     class Meta:
         db_table = 'dts_person'
         ordering = ('dni',)
+
 
 class DtsCylinderPerson(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)

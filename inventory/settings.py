@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     'rest_framework',
     'debug_toolbar',
     'inventory.common',
@@ -183,10 +184,15 @@ if ENVIRONMENT == 'production':
         'SLIDING_TOKEN_LIFETIME': timedelta(minutes=780),
         'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
     }
-
-INTERNAL_IPS = ('127.0.0.1', '0.0.0.0', 'localhost',)
+else:
+    REST_FRAMEWORK = {
+        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+        'PAGE_SIZE': 10
+    }
 
 if ENVIRONMENT == 'development':
+    INTERNAL_IPS = ('127.0.0.1', '0.0.0.0', 'localhost',)
+    
     DEBUG_TOOLBAR_PANELS = [
         'ddt_request_history.panels.request_history.RequestHistoryPanel',
         'debug_toolbar.panels.versions.VersionsPanel',

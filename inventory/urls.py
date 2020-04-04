@@ -20,7 +20,6 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
-import debug_toolbar
 
 urlpatterns = [
     path('api/token',
@@ -37,9 +36,13 @@ urlpatterns = [
         name='api_1.0'),
 ]
 
-if settings.DEBUG:
+if settings.ENVIRONMENT == 'development':
+    from django.contrib import admin
     import debug_toolbar
     urlpatterns = [
+        path('admin/',
+            admin.site.urls,
+            name='admin'),
         path('__debug__/',
             include(debug_toolbar.urls),
             name='debug_toolbar'),
